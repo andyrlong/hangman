@@ -1,8 +1,10 @@
 import random
 
+# Create list of words
 words = ['guitar', 'ukelele', 'bass', 'drums', 'violin']
 
 def pick_a_word():
+    # A random word from the list is chosen
     return random.choice(words)
 print(pick_a_word())
 
