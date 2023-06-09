@@ -8,7 +8,7 @@ def pick_a_word():
     return random.choice(words)
 print(pick_a_word())
 
-# This function defines the winning and losing scenarios of the game
+# Defines the winning and losing scenarios of the game
 # If the guess is correct, the user wins. If the user runs out of lives, the lose.
 def play():
     word = pick_a_word()
