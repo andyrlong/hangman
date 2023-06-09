@@ -1,6 +1,6 @@
 import random
 
-words = ['chicken', 'dog', 'cat', 'mouse', 'frog']
+words = ['guitar', 'ukelele', 'bass', 'drums', 'violin']
 
 def pick_a_word():
     return random.choice(words)
