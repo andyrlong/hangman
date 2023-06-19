@@ -14,7 +14,7 @@ def hangman():
     word = get_valid_word(words)
     # Letters in a word
     word_letters = set(word)
-    alphabet = (string.ascii_uppercase)
+    alphabet = set(string.ascii_uppercase)
     # Letters that have been used
     used_letters = set()
 
