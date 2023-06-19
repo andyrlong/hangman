@@ -1,78 +1,56 @@
 import random
+from words import words
+from hangman_visual import lives_visual_dict
+import string
 
-# Create list of words
-words = ['guitar', 'ukelele', 'bass', 'drums', 'violin']
+def get_valid_word(words):
+    word = random.choice(words)
+    while '-' or ' ' in words:
+        word = random.choice(words)
+    return word
 
-def pick_a_word():
-    # A random word from the list is chosen
-    return random.choice(words)
-print(pick_a_word())
+def hangman():
+    # Word chosen
+    word = get_valid_word(words)
+    # Letters in a word
+    word_letters = set(word)
+    alphabet = (string.ascii_uppercase)
+    # Letters that have been used
+    used_letters = set()
 
-def play():
-    word = pick_a_word()
-    while True:
-        guess = get_guess(word)
-        if process_guess(guess, word):
-            print("You win!")
-            break
-        if lives_remaining == 0:
-            print("You have been hung!")
-            print("The word was " + word)
-            break
+    lives = 7
 
-def get_guess(word):
-    print_word_with_blanks(word)
-    print("Lives remaining: " + str(lives_remaining))
-    guess = input("Guess a letter or whole word.")
-    return guess
+    while len(word_letters) > 0 and lives > 0:
 
+        print("You have used the following letters: ", " ".join(used_letters))
 
-def print_word_with_blanks(word):
-    display_word = ''
-    for letter in word:
-        if guessed_letters.find(letter) > -1:
-            # Letter found
-            display_word = display_word + letter
+        word_list = [letter if letter in used_letters else '-' for letter in word]
+        print(lives_visual_dict[lives])
+        print("Current word: ", " ".join(word_list))
+
+        # Letter guessed by the user
+        user_letter = input("Guess a letter: ").upper()
+
+        if user_letter in alphabet - used_letters:
+            used_letters.add(user_letter)
+            if user_letter in word_letters:
+                word_letters.remove(user_letter)
+            else:
+                lives = lives - 1
+                print("Letter not found in word.")
+        elif user_letter in used_letters:
+                    print("You have already guessed that letter.")
         else:
-            # Letter not found
-            display_word = display_word + '-'
-    print(display_word)
+                    print("Invalid input.")
 
-
-def process_guess(guess, word):
-    if len(guess) > 1:
-        return whole_word_guess(guess, word)
+    if lives == 0:
+          print(lives_visual_dict[lives])
+          print(f"You died. The word was {word}")
     else:
-        return single_letter_guess(guess, word)
+          print("You guessed the word!")
 
+if __name__ == '__main__':
+    hangman()
 
-def whole_word_guess(guess, word):
-    global lives_remaining 
-    if guess == word:
-        return True
-    else:
-        lives_remaining = lives_remaining - 1
-        return False
-
-
-def single_letter_guess(guess, word):
-    global guessed_letters
-    global lives_remaining
-    if word.find(guess) == -1:
-        # Letter guess was incorrect
-        lives_remaining = lives_remaining - 1
-    guessed_letters = guessed_letters + guess
-    if all_letters_guessed(word):
-        return True
-    return False
-
-def all_letters_guessed(word):
-    for letter in word:
-        if guessed_letters.find(letter) == -1:
-            return False
-        return True
-    
-# Main function
-play()
             
 
